@@ -88,7 +88,7 @@ Report the returned `avgMonthlyMatches`. If it comes back 0, the scanner is brok
 
 Once the scanner is saved:
 
-- **Give the user a dashboard link** so they can review the scanner and its incoming matches / insights: `https://app.gigradar.io/scanner/<id>` (the `<id>` is on the created scanner). Always include this.
+- **Give the user a dashboard link** so they can review the scanner and its incoming matches / insights: `https://beta.gigradar.io/scanner/<id>` (the `<id>` is on the created scanner). Always include this.
 - **Recommend reviewing the autobidder** — that is what turns matches into sent proposals. It is a real-money action, so frame it as a recommendation, not something you do for them.
 
 ## One scanner = one target
