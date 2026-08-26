@@ -36,7 +36,7 @@ Reading `avgMonthlyMatches`:
 
 ## Query syntax
 
-`query.q` is an Elasticsearch `simple_query_string`:
+`query.q` uses GigRadar's search syntax:
 
 | Pattern | Meaning |
 | --- | --- |
@@ -91,7 +91,7 @@ Announce every switch. A scanner created on the wrong team can start sending rea
 
 ## Asking GigRadar itself
 
-`ask_gigradar` puts a question to GigRadar's own assistant, answered from the official knowledge base.
+`ask_gigradar` puts a question to GigRadar's built-in assistant, answered from GigRadar's official documentation.
 
 Use it instead of guessing. GigRadar ships weekly, so training data goes stale — anything about how a feature behaves, why something happened, or what a term means should come from here.
 

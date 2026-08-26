@@ -49,6 +49,7 @@ An opportunity is a job one of the team's scanners matched.
 
 | Tool | Purpose |
 | --- | --- |
-| `ask_gigradar` | Ask GigRadar's own assistant, answered from the knowledge base. |
+| `ask_gigradar` | Ask GigRadar's built-in assistant, answered from GigRadar's documentation. |
+| `submit_feedback` | Report a bug or request a feature, straight to the GigRadar team. |
 
 Stateless — each call is independent, so include context in the question.

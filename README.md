@@ -55,7 +55,7 @@ rm -rf /tmp/gigradar-mcp
 
 **Teams** — one login reaches every team you belong to. Switch between them mid-conversation; the switch sticks.
 
-**Ask GigRadar** — put a question to GigRadar's own assistant, answered from the official knowledge base. Your agent uses this instead of guessing at a product that ships weekly.
+**Ask GigRadar** — put a question to GigRadar's built-in assistant, answered from GigRadar's official documentation. Your agent uses this instead of guessing at a product that updates often.
 
 ## Safety
 

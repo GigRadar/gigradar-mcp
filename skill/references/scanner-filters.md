@@ -6,7 +6,7 @@ Every field lives under `query`. All are optional. Omitting a filter means "do n
 
 | Field | Notes |
 | --- | --- |
-| `q` | The main query. `simple_query_string` syntax — see SKILL.md. |
+| `q` | The main query. GigRadar search syntax — see SKILL.md. |
 | `anyKeywords` | Comma-separated; any may match. No grouping. |
 | `excludedKeywords` | Comma-separated exclusions. No grouping. |
 | `onlySearchOnTitle` | Match the title only, ignoring the body. Sharply narrowing. |
