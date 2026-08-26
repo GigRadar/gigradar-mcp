@@ -6,6 +6,8 @@
 | --- | --- | --- |
 | Scanner finds nothing | Over-broad exclusion, or a rate floor that also drops jobs with no stated rate | `get_scanner`, then remove filters one at a time and re-preview |
 | Scanner floods with poor fits | Query too broad; missing exclusions | Narrow `q`, add exclusions one at a time, re-preview after each |
+| Autobidder is spending connects on junk | Scanner saved with no client-quality floor (`paymentVerified`, budget, rating) | Add `paymentVerified` and a budget floor, re-preview the real jobs, confirm with the user |
+| A specialized scanner's reply rate dropped | A broader scanner above it (sharing one profile) is claiming its jobs first — pyramid inversion | Check order with `list_scanners`; if inverted and profiles are shared, `reorder_scanner` the niche one higher |
 | Query rejected on save | Unbalanced quotes in `q`, or a min above its max | Read the error — it names the field |
 | An edit "did nothing" | Update merged into a filter that still contradicts it | `get_scanner` and read the WHOLE query |
 | Changes landed on the wrong account | Wrong active team | `whoami`, then `switch_team`; re-check what was created |

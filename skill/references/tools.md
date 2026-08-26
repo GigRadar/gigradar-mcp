@@ -35,7 +35,7 @@ Priority decides which scanner claims a job when several match — relevant when
 | `search_gigs` | Search the live Upwork index. Read-only — the safe way to test a query. |
 | `get_gigs_insights` | Aggregates: volume over time, budget distribution, client mix. |
 
-`search_gigs` shows you WHICH jobs a query returns; `preview_scanner_matches` tells you HOW MANY per month. Use both before saving a scanner.
+`search_gigs` shows you WHICH jobs a query returns; `preview_scanner_matches` tells you HOW MANY per month. Use BOTH before saving a scanner, and show the user a real sample of jobs (budget, client signals, a description line) — never just the count.
 
 ## Opportunities
 
