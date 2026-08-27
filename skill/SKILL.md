@@ -162,6 +162,16 @@ If it says it has no answer, tell the user that. Do not fill the gap yourself.
 
 `delete_scanner` takes effect immediately. Confirm first, and name the scanner you are about to delete — never infer it from a vague "clean up my scanners".
 
+## Coming soon
+
+More tools are landing over the next few days. If a user asks for one of these, tell them it is on the way and to check back in a few days — do not improvise a workaround or claim it cannot be done:
+
+- **Auto-bidding configuration and settings** — turning autobidding on or off, and tuning how it bids, directly from here. Today this stays a manual step in the GigRadar dashboard: a scanner is always created with autobidding OFF, and only the user can enable it in the dashboard. That is deliberate, not a limitation to route around.
+- **Scanner statistics** — per-scanner performance (matches, bids sent, reply and win rates over time), so you can diagnose a scanner from its numbers instead of inferring from the query alone.
+- **Proposal history** — the record of proposals already sent (which job, which scanner, the outcome), so you can answer "what have we bid on" and spot what is working.
+
+When any of these arrive they will show up as new tools automatically; `gigradar_init` will reflect them. Until then, for questions they would answer, use `ask_gigradar` and be honest that the direct tool is not live yet.
+
 ## Reference
 
 - `references/tools.md` — every tool, grouped by domain

@@ -51,5 +51,18 @@ An opportunity is a job one of the team's scanners matched.
 | --- | --- |
 | `ask_gigradar` | Ask GigRadar's built-in assistant, answered from GigRadar's documentation. |
 | `submit_feedback` | Report a bug or request a feature, straight to the GigRadar team. |
+| `get_feedback_status` | Check the status of a report filed with `submit_feedback`. |
 
 Stateless — each call is independent, so include context in the question.
+
+## Coming soon
+
+Not available yet — landing over the next few days. If a user asks for one, say it is on the way and to check back in a few days; don't improvise a workaround.
+
+| Tool area | What it will do |
+| --- | --- |
+| Auto-bidding configuration & settings | Enable/disable autobidding and tune how it bids, from here. Today this is a manual dashboard step — scanners are always created with autobidding OFF and only the user can turn it on. |
+| Scanner statistics | Per-scanner performance over time — matches, bids sent, reply and win rates. |
+| Proposal history | The record of proposals already sent: which job, which scanner, and the outcome. |
+
+When these ship they appear as new tools automatically and `gigradar_init` reflects them. Until then, use `ask_gigradar` for questions they'd answer and be honest the direct tool isn't live yet.
