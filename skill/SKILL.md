@@ -168,6 +168,19 @@ Good: "How does the autobidder choose which jobs to bid on?", "Why would a scann
 
 If it says it has no answer, tell the user that. Do not fill the gap yourself.
 
+## Proposals, CRM, webhooks, and destructive actions
+
+The MCP can now create/schedule applications, manage CRM work, configure webhooks, and queue Upwork-visible messages, meetings, or participants.
+
+**Explicit confirmation is mandatory immediately before any external or destructive action.** Present the exact active team, target job or client/room, sending account, final content/attachments, cost or schedule/timezone, and what happens next. A general earlier "yes" never authorizes a new send, application, schedule, webhook change, deletion, or meeting action.
+
+- `create_application` and `schedule_application` can spend credits/connects or lead to a real proposal. Confirm the exact job, freelancer profile, final cover letter/answers, bid, and timing.
+- CRM sends, meeting proposals, participant additions, and scheduled-message actions are visible on Upwork. Say **accepted/pending delivery** when GigRadar queues work; never claim it has already sent.
+- `delete_scanner`, `delete_crm_message`, `delete_crm_files`, and `delete_crm_scheduled_message` take effect immediately or cancel future delivery. Confirm first and name the exact object.
+- Webhooks send account events to an external URL. Show the destination and scopes; never invent an endpoint or repeat a password returned nowhere by the tools.
+
+CRM file bytes never travel through the tool call: get a signed upload URL, upload directly, then reference its file id.
+
 ## Destructive actions
 
 `delete_scanner` takes effect immediately. Confirm first, and name the scanner you are about to delete — never infer it from a vague "clean up my scanners".
