@@ -49,11 +49,18 @@ An opportunity is a job one of the team's scanners matched.
 
 | Tool | Purpose |
 | --- | --- |
-| `ask_gigradar` | Ask GigRadar's built-in assistant, answered from GigRadar's documentation. |
+| `ask_gigradar` | Start an async, continuable conversation with GigRadar's built-in assistant. Returns a threadId; does not return the answer directly. |
+| `get_gigradar_answer` | Poll an async ask_gigradar conversation until its answer is ready. |
 | `submit_feedback` | Report a bug or request a feature, straight to the GigRadar team. |
 | `get_feedback_status` | Check the status of a report filed with `submit_feedback`. |
 
-Stateless — each call is independent, so include context in the question.
+## Async assistant conversations
+
+`ask_gigradar` starts the assistant and immediately returns `{ threadId, status: "running", pollAfterMs }`. Wait about `pollAfterMs`, then call `get_gigradar_answer(threadId)`. Keep polling while status is `running`; only relay an answer when status is `done`. A `failed` status means the assistant could not complete the run — do not invent an answer.
+
+For a follow-up, call `ask_gigradar(question, threadId)` with the same threadId. The assistant retains the full conversation history. Thread ids are private to the user and team that started them; never reuse or share one across users or teams.
+
+All other MCP calls are stateless — include context in the question or tool arguments.
 
 ## Coming soon
 

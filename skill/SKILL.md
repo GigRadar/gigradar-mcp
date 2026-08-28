@@ -150,9 +150,19 @@ Announce every switch. A scanner created on the wrong team can start sending rea
 
 ## Asking GigRadar itself
 
-`ask_gigradar` puts a question to GigRadar's built-in assistant, answered from GigRadar's official documentation.
+`ask_gigradar` starts a conversation with GigRadar's built-in assistant. It can use the full history of that conversation and work through a thoughtful answer, so it runs asynchronously rather than making you wait in one tool call.
 
-Use it instead of guessing. GigRadar ships weekly, so training data goes stale — anything about how a feature behaves, why something happened, or what a term means should come from here.
+Use it instead of guessing. GigRadar ships weekly, so training data goes stale — anything about how a feature behaves, why something happened, what a term means, or the account's own setup should come from here.
+
+**Required async sequence**
+
+1. Call `ask_gigradar` with the question. It returns a `threadId`, `status: "running"`, and `pollAfterMs`.
+2. Wait about `pollAfterMs`, then call `get_gigradar_answer` with that `threadId`.
+3. If it still says `running`, wait and poll again. Do not tell the user it failed just because the first poll is still running.
+4. Once status is `done`, relay the answer. If status is `failed`, say it could not complete the answer — do not invent one.
+5. For a follow-up, call `ask_gigradar` again with the SAME `threadId`. The assistant keeps the conversation history, so the follow-up can be brief.
+
+Never share a `threadId` between users or teams. The server enforces this too, but a conversation is private to the account that started it.
 
 Good: "How does the autobidder choose which jobs to bid on?", "Why would a scanner be auto-disabled?", "How are connects consumed?"
 
