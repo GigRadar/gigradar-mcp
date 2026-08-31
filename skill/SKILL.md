@@ -162,6 +162,8 @@ Use it instead of guessing. GigRadar ships weekly, so training data goes stale �
 4. Once status is `done`, relay the answer. If status is `failed`, say it could not complete the answer — do not invent one.
 5. For a follow-up, call `ask_gigradar` again with the SAME `threadId`. The assistant keeps the conversation history, so the follow-up can be brief.
 
+Wait for `done` or `failed` before asking the next question on that conversation. A follow-up sent while the previous one is still running is refused with "that conversation is still answering" — poll instead of retrying it. A question that needs the account looked at can take a couple of minutes; that is the assistant working, not a stall.
+
 Never share a `threadId` between users or teams. The server enforces this too, but a conversation is private to the account that started it.
 
 Good: "How does the autobidder choose which jobs to bid on?", "Why would a scanner be auto-disabled?", "How are connects consumed?"
