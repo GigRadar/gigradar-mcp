@@ -43,7 +43,9 @@ Decide the new scanner's position deliberately, and tell the user the consequenc
 
 ### 3. Draft the query — including client-quality filters
 
-Draft `query.q` from what the user wants (syntax below). But a good query is not just the right keywords — a query with **no client-quality or budget floor feeds the autobidder low-quality jobs**: unverified clients who never pay, $10 budgets, one-line postings. Propose these deliberately and explain the trade-off:
+**Write `query.q` yourself in the query syntax — read "Query syntax" below before drafting it.** `q` is an Elasticsearch `simple_query_string` that AND-s bare words together, so passing the user's phrasing straight through ("power bi dashboard developer") silently matches a fraction of what they asked for. Every query you save is quoted phrases, `|` alternatives, `()` groups and `*` prefixes — never a plain sentence.
+
+A good query is also not just the right keywords — a query with **no client-quality or budget floor feeds the autobidder low-quality jobs**: unverified clients who never pay, $10 budgets, one-line postings. Propose these deliberately and explain the trade-off:
 
 - `paymentVerified` — the client has confirmed a billing method with Upwork. Correlates with clients who actually pay. Almost always worth setting.
 - `minFixedBudget` / `minHourlyRate` — a floor that keeps out the $5 jobs. (Note: a rate floor also drops jobs that state *no* rate — see troubleshooting.)
@@ -97,7 +99,9 @@ Resist the mega-scanner. A single broad "Full-Stack" or "Web Dev" scanner with l
 
 ## Query syntax
 
-`query.q` uses GigRadar's search syntax:
+**`query.q` is an Elasticsearch `simple_query_string`, with the default operator set to AND.** It is a query language, not a search box. Never pass the user's sentence through as-is: write the query yourself, in this syntax, every time.
+
+Reference: https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-simple-query-string-query
 
 | Pattern | Meaning |
 | --- | --- |
@@ -107,15 +111,28 @@ Resist the mega-scanner. A single broad "Full-Stack" or "Web Dev" scanner with l
 | `react \| vue` | OR |
 | `react + -wordpress` | AND NOT |
 | `(react \| vue) + senior` | grouping |
-| `develop*` | prefix wildcard |
+| `react*` | prefix wildcard — matches react, reactjs, reacts |
+| `"react developer"~3` | phrase with slop (words up to 3 apart) |
+
+**The AND default is the trap.** Because unquoted words are AND-ed, `power bi dashboard developer` means *all four tokens must appear* — it does not error, it just quietly matches a fraction of what the user wanted:
+
+| Query | Matches/month |
+| --- | --- |
+| `power bi dashboard developer` | 24 |
+| `"power bi" (dashboard \| developer)` | 103 |
+
+Nothing tells you this happened. A bare multi-word `q` is a bug even when it returns results.
 
 Craft notes that matter:
 
-- **Quote every multi-word phrase.** Bare `machine learning engineer` needs those three tokens and matches almost nothing — write `"machine learning engineer"`, or break it into groups.
-- **To catch spelling variants, build an AND-of-ORs** covering both the phrase forms and the role words: `("front end" | "front-end" | frontend) + (dev* | developer | engineer*)`. Hyphenated terms tokenise oddly — include the spaced, joined, and hyphenated forms.
+- **Quote every multi-word phrase.** `machine learning engineer` demands all three tokens anywhere in the posting — write `"machine learning engineer"`, or break it into groups.
+- **Reach for the wildcard before enumerating.** `react*` beats `(react | reactjs | "react.js" | "react js")` — shorter, and it matched *more* jobs (1,710 vs 1,685) with about 6 noise hits. Enumerate only genuinely distinct phrasings a prefix cannot reach: `("front end" | "front-end" | frontend)`. Hyphenated terms tokenise oddly, so include the spaced, joined, and hyphenated forms.
+- **The usual shape is an AND of ORs**: one group per concept, alternatives inside each group — `(react* | vue*) + (developer | engineer*) + -wordpress`.
 - **Prefer `q` with operators** over the `anyKeywords` / `excludedKeywords` fields for anything non-trivial; those are plain comma lists with no grouping.
 - **`onlySearchOnTitle`** is the sharpest fix for a keyword that only shows up in passing in the body — narrower than piling on exclusions.
 - Every `"` must be closed — unbalanced quotes are rejected before saving. Use straight ASCII quotes, never curly `“ ”`.
+
+**Compare shapes before you save.** Since a too-narrow query looks identical to a good one, run `preview_scanner_matches` on two or three candidate shapes, show the user the counts side by side, and save the one that wins. That is the only way the AND trap becomes visible.
 
 A single scanner cannot cleanly express "hourly ≥ $70 OR fixed ≥ $4000" as one rule. If you set both floors and are unsure how they combine, check with `ask_gigradar` before promising behaviour — or propose two scanners, one per budget type, which is unambiguous.
 
