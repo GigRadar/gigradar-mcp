@@ -32,10 +32,13 @@ Priority decides which scanner claims a job when several match — relevant when
 
 | Tool | Purpose |
 | --- | --- |
-| `search_gigs` | Search the live Upwork index. Read-only — the safe way to test a query. |
+| `search_gigs` | Search the live Upwork index. Read-only — the safe way to test a query. Each result carries a `descriptionPreview` excerpt, not the full posting. |
+| `get_gig` | Read ONE posting in full — complete description and skills. Takes the ciphertext from a search result. |
 | `get_gigs_insights` | Aggregates: volume over time, budget distribution, client mix. |
 
 `search_gigs` shows you WHICH jobs a query returns; `preview_scanner_matches` tells you HOW MANY per month. Use BOTH before saving a scanner, and show the user a real sample of jobs (budget, client signals, a description line) — never just the count.
+
+Search results carry only `descriptionPreview`, an excerpt centred on the part that matched — enough to see why a job came back, not enough to judge it. When the user wants to actually read a posting, or you are mining real jobs for the words to include and exclude in a scanner, call `get_gig` with that result's ciphertext for the full text. Do not page through search results trying to reassemble a description.
 
 ## Opportunities and applications
 
@@ -43,7 +46,7 @@ An opportunity is a job one of the team's scanners matched.
 
 | Tool | Purpose |
 | --- | --- |
-| `get_opportunity` | Full detail: job, match reasoning, application state. |
+| `get_opportunity` | Full detail: the job posting itself (full description and skills), match reasoning, application state. |
 | `create_application` | Create a proposal application for a matched job. Spends credits/connects or can queue delivery — show every final detail and get explicit confirmation immediately before calling. |
 | `schedule_application` | Schedule an application for later. Confirm the exact job, profile, final proposal, local time, and timezone immediately before calling. |
 
