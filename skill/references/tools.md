@@ -90,6 +90,10 @@ For attachments, request a signed upload URL with `get_crm_upload_url`, upload b
 
 For a follow-up, call `ask_gigradar(question, threadId)` with the same threadId. The assistant retains the full conversation history. Thread ids are private to the user and team that started them; never reuse or share one across users or teams.
 
+One question per conversation at a time. Asking a follow-up before the previous one finishes is refused with "that conversation is still answering" — poll until `done` or `failed` first. That is not an error to retry in a loop; it means the earlier answer is still being written.
+
+Only the answer to the question you asked comes back. The assistant may work through several steps before replying, and `get_gigradar_answer` stays `running` through all of them, so a long wait is normal for a question that needs the account looked at. A run that stays `running` for many minutes and then reports `failed` can be asked again on the same thread.
+
 All other MCP calls are stateless — include context in the question or tool arguments.
 
 ## Coming soon
