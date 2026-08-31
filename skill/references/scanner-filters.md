@@ -6,13 +6,29 @@ Every field lives under `query`. All are optional. Omitting a filter means "do n
 
 | Field | Notes |
 | --- | --- |
-| `q` | The main query. GigRadar search syntax — see SKILL.md. |
+| `q` | The main query. Elasticsearch `simple_query_string`, default operator AND — see below. |
 | `anyKeywords` | Comma-separated; any may match. No grouping. |
 | `excludedKeywords` | Comma-separated exclusions. No grouping. |
 | `onlySearchOnTitle` | Match the title only, ignoring the body. Sharply narrowing. |
 | `category` | Upwork category name(s). |
 
 Prefer `q` with operators for anything non-trivial; the keyword lists cannot express grouping or precedence.
+
+### Writing `q`
+
+`q` is an Elasticsearch `simple_query_string` with the default operator set to AND, so every bare word must appear. Reference: https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-simple-query-string-query
+
+| Pattern | Meaning |
+| --- | --- |
+| `"react native"` | exact phrase — quote every multi-word term |
+| `react + typescript` | AND |
+| `react \| vue` | OR |
+| `-wordpress` | exclude |
+| `(react \| vue) + senior` | grouping |
+| `react*` | prefix wildcard |
+| `"react developer"~3` | phrase with slop |
+
+Never pass a plain sentence. `power bi dashboard developer` demands all four tokens and matched 24 jobs/month where `"power bi" (dashboard | developer)` matched 103 — with no error either way. Prefer `react*` over enumerating `react | reactjs | "react.js"`; enumerate only phrasings a prefix cannot reach (`"front end" | "front-end" | frontend`). Compare candidate shapes with `preview_scanner_matches` before saving.
 
 ## Budget
 
