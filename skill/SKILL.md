@@ -66,6 +66,8 @@ Read the returned jobs yourself and decide, per job: relevant / borderline / off
 - **client signals** — payment verified? total spent? rating? country?,
 - **what the posting actually asks for** — a line from the description that shows it is (or isn't) the work they want.
 
+Search results carry an excerpt of each description (`descriptionPreview`), centred on what matched — enough to spot an off-target job, not enough to judge a good one. Open the postings that matter with `get_gig` (it takes the ciphertext from the search result) and read the real text: the words worth including, and the words worth excluding, are in there rather than in the title.
+
 If the sample contains off-target jobs, extract the exact word(s) that made each one wrong and add them to `excludedKeywords` — **one at a time, re-previewing after each**, because a single over-broad exclusion can zero out a healthy query. Only exclude words you saw in a real bad job, and check the exclusion does not collide with a wanted term (excluding `lead` would kill `technical lead`).
 
 `avgMonthlyMatches` measures volume, not quality. A query returning 200 jobs/month means nothing until you have read a sample of them.
