@@ -37,11 +37,11 @@ Priority decides which scanner claims a job when several match — relevant when
 | --- | --- |
 | `search_gigs` | Search the live Upwork index. Read-only — the safe way to test a query. Each result carries a `descriptionPreview` excerpt, not the full posting. |
 | `get_gig` | Read ONE posting in full — complete description and skills. Takes the ciphertext from a search result. |
-| `get_gigs_insights` | Aggregates: monthly volume history (12 months), keyword growth, client mix. |
+| `get_gigs_insights` | Aggregates: 12-month volume history, keyword/skill growth, total matching jobs. |
 
 `search_gigs` shows you WHICH jobs a query returns; `preview_scanner_matches` tells you HOW MANY per month. Use BOTH before saving a scanner, and show the user a real sample of jobs (budget, client signals, a description line) — never just the count.
 
-`get_gigs_insights` carries `monthlyHist` — one row per calendar month across the 12-month history window. That is the tool to answer "has demand declined this year"; `search_gigs` cannot, because it only reaches back 90 days. `avgJobsPerMonth` is a different number: the recent (two-month) monthly rate, which is what scanner volume is judged on. Do not present it as the average of `monthlyHist`.
+`get_gigs_insights` carries `monthlyHist` — one row per calendar month across the 12-month history window. That is the tool to answer "has demand declined this year"; `search_gigs` cannot, because it only reaches back 90 days. The last row is the last COMPLETE month — the current partial month is not in the series, so do not read the final row as "this month". `avgJobsPerMonth` is a different number: the recent (two-month) monthly rate, which is what scanner volume is judged on. Do not present it as the average of `monthlyHist`.
 
 Search results carry only `descriptionPreview`, an excerpt centred on the part that matched — enough to see why a job came back, not enough to judge it. When the user wants to actually read a posting, or you are mining real jobs for the words to include and exclude in a scanner, call `get_gig` with that result's ciphertext for the full text. Do not page through search results trying to reassemble a description.
 

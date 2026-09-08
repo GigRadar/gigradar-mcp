@@ -157,7 +157,9 @@ In the order worth checking:
 
 `get_scanner_performance` returns, per scanner and per date range: bids sent, replies, connects spent, reply score, **PVR** (Proposal View Rate — GigRadar's experimental estimate of the share of eligible proposals a client viewed) and **LRR** (Lead Reply Rate — replies ÷ bids sent). Both come back as percentages, and `null` when no eligible proposals exist in that window — say "no data for that period", never "0%".
 
-Always pass explicit dates. To answer "is this getting worse", call it once per period (this month, the same month last year) and compare the two — there is no built-in comparison.
+Always pass explicit dates, ISO 8601 only — anything else is rejected rather than guessed at. **Pass `timezone`** (IANA, e.g. `Asia/Singapore`) whenever you know the user's: it defaults to UTC, and for a customer who is not on UTC that silently shifts the window off the one their dashboard shows. One call covers at most 366 days.
+
+To answer "is this getting worse", call it once per period (this month, the same month last year) and compare the two — there is no built-in comparison.
 
 Two different questions, two different tools: `get_scanner_performance` is THIS team's own results; `get_gigs_insights` is the market. A scanner whose LRR fell while `monthlyHist` shows market volume falling just as fast is not a scanner problem.
 
