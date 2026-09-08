@@ -29,7 +29,7 @@ A scanner is a saved search that runs continuously and feeds the autobidder.
 
 Priority decides which scanner claims a job when several match — relevant when scanners overlap and each has a different cover-letter template.
 
-`get_scanner_performance` takes an explicit `from` / `to` and returns one row per scanner: opportunities, bids sent, errors, irrelevant matches, replies, reply score, connects spent, total price, `pvrPercent` and `lrrPercent`. PVR is GigRadar's experimental estimate of the share of eligible proposals a client viewed; LRR is replies ÷ bids sent. Both are percentages, and `null` means no eligible proposals existed in that window — report that as "no data", never as 0%. To show a trend, call it once per period and compare.
+`get_scanner_performance` takes an explicit `from` / `to` and returns one row per scanner: opportunities, bids sent, errors, irrelevant matches, replies, reply score, connects spent, total price, `pvrPercent` and `lrrPercent`. PVR is GigRadar's experimental estimate of the share of eligible proposals a client viewed; LRR is replies ÷ bids sent. Both are percentages, and `null` means no eligible proposals existed in that window — report that as "no data", never as 0%. PVR is averaged over proposals that reached Upwork, which is not the same set as `sent`, so never multiply it by `sent` to derive a view count. A row with `scannerDeleted: true` is real history for a scanner that has since been deleted — say so, and never suggest editing or reordering it. Dates are read in the `timezone` you pass (default UTC) and must be ISO 8601; a range covers at most 366 days, so a longer history is one call per period.
 
 ## Job search
 
