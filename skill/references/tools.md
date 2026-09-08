@@ -25,8 +25,11 @@ A scanner is a saved search that runs continuously and feeds the autobidder.
 | `duplicate_scanner` | Clone for A/B testing. Fully independent of the source. |
 | `delete_scanner` | Delete. Immediate — confirm first. |
 | `reorder_scanner` | Change priority. Position 1 is highest. |
+| `get_scanner_performance` | Per-scanner results for a date range: bids, replies, connects, score, PVR, LRR. |
 
 Priority decides which scanner claims a job when several match — relevant when scanners overlap and each has a different cover-letter template.
+
+`get_scanner_performance` takes an explicit `from` / `to` and returns one row per scanner: opportunities, bids sent, errors, irrelevant matches, replies, reply score, connects spent, total price, `pvrPercent` and `lrrPercent`. PVR is GigRadar's experimental estimate of the share of eligible proposals a client viewed; LRR is replies ÷ bids sent. Both are percentages, and `null` means no eligible proposals existed in that window — report that as "no data", never as 0%. To show a trend, call it once per period and compare.
 
 ## Job search
 
@@ -34,9 +37,11 @@ Priority decides which scanner claims a job when several match — relevant when
 | --- | --- |
 | `search_gigs` | Search the live Upwork index. Read-only — the safe way to test a query. Each result carries a `descriptionPreview` excerpt, not the full posting. |
 | `get_gig` | Read ONE posting in full — complete description and skills. Takes the ciphertext from a search result. |
-| `get_gigs_insights` | Aggregates: volume over time, budget distribution, client mix. |
+| `get_gigs_insights` | Aggregates: monthly volume history (12 months), keyword growth, client mix. |
 
 `search_gigs` shows you WHICH jobs a query returns; `preview_scanner_matches` tells you HOW MANY per month. Use BOTH before saving a scanner, and show the user a real sample of jobs (budget, client signals, a description line) — never just the count.
+
+`get_gigs_insights` carries `monthlyHist` — one row per calendar month across the 12-month history window. That is the tool to answer "has demand declined this year"; `search_gigs` cannot, because it only reaches back 90 days. `avgJobsPerMonth` is a different number: the recent (two-month) monthly rate, which is what scanner volume is judged on. Do not present it as the average of `monthlyHist`.
 
 Search results carry only `descriptionPreview`, an excerpt centred on the part that matched — enough to see why a job came back, not enough to judge it. When the user wants to actually read a posting, or you are mining real jobs for the words to include and exclude in a scanner, call `get_gig` with that result's ciphertext for the full text. Do not page through search results trying to reassemble a description.
 
@@ -106,7 +111,6 @@ Not available yet — landing over the next few days. If a user asks for one, sa
 | Tool area | What it will do |
 | --- | --- |
 | Auto-bidding configuration & settings | Enable/disable autobidding and tune how it bids, from here. Today this is a manual dashboard step — scanners are always created with autobidding OFF and only the user can turn it on. |
-| Scanner statistics | Per-scanner performance over time — matches, bids sent, reply and win rates. |
 | Proposal history | The record of proposals already sent: which job, which scanner, and the outcome. |
 
 When these ship they appear as new tools automatically and `gigradar_init` reflects them. Until then, use `ask_gigradar` for questions they'd answer and be honest the direct tool isn't live yet.

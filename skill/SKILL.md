@@ -153,9 +153,17 @@ In the order worth checking:
 3. Remove filters one at a time and re-preview. The usual culprits, most common first: an over-broad exclusion, a rate floor (which also drops jobs with no stated rate), a country filter, an over-specific phrase.
 4. If the query previews healthy but no jobs arrive, it is not a query problem — check subscription and connect balance with `ask_gigradar`.
 
+## Reading scanner performance
+
+`get_scanner_performance` returns, per scanner and per date range: bids sent, replies, connects spent, reply score, **PVR** (Proposal View Rate — GigRadar's experimental estimate of the share of eligible proposals a client viewed) and **LRR** (Lead Reply Rate — replies ÷ bids sent). Both come back as percentages, and `null` when no eligible proposals exist in that window — say "no data for that period", never "0%".
+
+Always pass explicit dates. To answer "is this getting worse", call it once per period (this month, the same month last year) and compare the two — there is no built-in comparison.
+
+Two different questions, two different tools: `get_scanner_performance` is THIS team's own results; `get_gigs_insights` is the market. A scanner whose LRR fell while `monthlyHist` shows market volume falling just as fast is not a scanner problem.
+
 ## Diagnosing low reply rate — check order first
 
-When a specialized scanner "used to do well" and now gets few replies, check the **order** before touching the query. If a broader scanner sits above it and they share a freelancer profile, the broad one is bidding on those jobs first with its generic proposal — the niche scanner never gets to send its tailored one. That is the pyramid inversion; fix it with `reorder_scanner` (after confirming the shared-profile caveat) rather than rewriting a query that was fine.
+When a specialized scanner "used to do well" and now gets few replies, check the **order** before touching the query. Pull `get_scanner_performance` for the period the user says was good and for the period now, so you are comparing measured numbers rather than impressions. If a broader scanner sits above it and they share a freelancer profile, the broad one is bidding on those jobs first with its generic proposal — the niche scanner never gets to send its tailored one. That is the pyramid inversion; fix it with `reorder_scanner` (after confirming the shared-profile caveat) rather than rewriting a query that was fine.
 
 ## Diagnosing a job that should not have matched
 
@@ -211,7 +219,6 @@ CRM file bytes never travel through the tool call: get a signed upload URL, uplo
 More tools are landing over the next few days. If a user asks for one of these, tell them it is on the way and to check back in a few days — do not improvise a workaround or claim it cannot be done:
 
 - **Auto-bidding configuration and settings** — turning autobidding on or off, and tuning how it bids, directly from here. Today this stays a manual step in the GigRadar dashboard: a scanner is always created with autobidding OFF, and only the user can enable it in the dashboard. That is deliberate, not a limitation to route around.
-- **Scanner statistics** — per-scanner performance (matches, bids sent, reply and win rates over time), so you can diagnose a scanner from its numbers instead of inferring from the query alone.
 - **Proposal history** — the record of proposals already sent (which job, which scanner, the outcome), so you can answer "what have we bid on" and spot what is working.
 
 When any of these arrive they will show up as new tools automatically; `gigradar_init` will reflect them. Until then, for questions they would answer, use `ask_gigradar` and be honest that the direct tool is not live yet.
