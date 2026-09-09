@@ -1,0 +1,26 @@
+{
+  "name": "gigradar",
+  "version": "1.0.0",
+  "description": "Operate a GigRadar account from your agent: configure Upwork job scanners, search the live job market, read per-scanner performance (PVR, LRR, connects), and manage CRM conversations.",
+  "author": {
+    "name": "GigRadar",
+    "email": "support@gigradar.io",
+    "url": "https://gigradar.io"
+  },
+  "homepage": "https://github.com/GigRadar/gigradar-mcp",
+  "repository": "https://github.com/GigRadar/gigradar-mcp",
+  "license": "MIT",
+  "keywords": [
+    "gigradar",
+    "upwork",
+    "freelance",
+    "lead-generation",
+    "mcp",
+    "model-context-protocol",
+    "proposals",
+    "crm",
+    "productivity"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}
