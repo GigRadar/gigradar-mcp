@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "gigradar",
+  "description": "GigRadar — Upwork lead generation, scanners and CRM, operated from your agent.",
+  "owner": {
+    "name": "GigRadar",
+    "url": "https://gigradar.io"
+  },
+  "plugins": [
+    {
+      "name": "gigradar",
+      "description": "Configure Upwork job scanners, search the market, read scanner performance (PVR/LRR), and manage CRM conversations — with the MCP server wired in.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

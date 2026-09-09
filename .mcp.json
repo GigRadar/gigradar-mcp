@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "gigradar": {
+      "type": "http",
+      "url": "https://api.gigradar.io/mcp/v1/mcp"
+    }
+  }
+}
