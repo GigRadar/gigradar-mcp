@@ -34,7 +34,20 @@ claude mcp add --transport http gigradar https://api.gigradar.io/mcp/v1/mcp
 
 The server ships tools; the skill ships the know-how — how to scope a scanner that neither starves nor floods, the search syntax, how to diagnose one that stopped finding work.
 
-Ask your agent to run `gigradar_init` and it will offer to install it, or do it yourself:
+**As a plugin (recommended).** The plugin carries the skill *and* wires up the MCP server, and it refreshes from this repo, so it follows the product instead of freezing at the day you installed it:
+
+```bash
+claude plugin marketplace add GigRadar/gigradar-mcp
+claude plugin install gigradar@gigradar
+```
+
+Later, to pull the newest guidance:
+
+```bash
+claude plugin marketplace update gigradar
+```
+
+**As files.** For hosts without a plugin system — ask your agent to run `gigradar_init`, or do it yourself:
 
 ```bash
 mkdir -p .agents/skills
@@ -43,7 +56,9 @@ cp -r /tmp/gigradar-mcp/skill .agents/skills/gigradar
 rm -rf /tmp/gigradar-mcp
 ```
 
-`.agents/skills/` is deliberately client-agnostic — the same files work in Claude, Codex, OpenClaw and anything else following that convention.
+`.agents/skills/` is deliberately client-agnostic — the same files work in Claude, Codex, OpenClaw and anything else following that convention. Note this makes a **copy**: re-run it after a GigRadar release, or your agent keeps following rules the product has changed.
+
+**Neither, and still current.** The rules that are expensive to get wrong — team scoping, previewing a scanner before it spends connects, how to read the performance and insights numbers, confirming before anything is sent — are also returned by the server itself at connection time. That text is read fresh every session, so it is right even if your installed copy is old.
 
 ## What it can do
 

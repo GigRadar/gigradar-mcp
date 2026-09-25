@@ -1,0 +1,45 @@
+{
+  "name": "gigradar",
+  "version": "1.0.0",
+  "description": "Operate a GigRadar account from your agent: configure Upwork job scanners, search the live job market, read per-scanner performance (PVR, LRR, connects), and manage CRM conversations.",
+  "author": {
+    "name": "GigRadar",
+    "email": "support@gigradar.io",
+    "url": "https://gigradar.io"
+  },
+  "homepage": "https://github.com/GigRadar/gigradar-mcp",
+  "repository": "https://github.com/GigRadar/gigradar-mcp",
+  "license": "MIT",
+  "keywords": [
+    "gigradar",
+    "upwork",
+    "freelance",
+    "lead-generation",
+    "mcp",
+    "model-context-protocol",
+    "proposals",
+    "crm",
+    "productivity"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "GigRadar",
+    "shortDescription": "Upwork lead generation, scanners and CRM, run from your agent.",
+    "longDescription": "GigRadar watches Upwork for jobs matching your saved searches and can send proposals automatically. This plugin bundles the hosted MCP server with the skill that teaches an agent to scope a scanner that neither starves nor floods, read its PVR and LRR honestly, and confirm before anything spends connects.",
+    "developerName": "GigRadar",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://gigradar.io",
+    "privacyPolicyURL": "https://gigradar.io/privacy",
+    "termsOfServiceURL": "https://gigradar.io/terms",
+    "defaultPrompt": [
+      "Show me my GigRadar scanners and how each performed over the last month",
+      "Set up a scanner for senior React jobs from payment-verified US clients, but skip WordPress",
+      "Has demand for my niche declined this year?"
+    ]
+  }
+}
