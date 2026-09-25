@@ -151,7 +151,7 @@ In the order worth checking:
 1. `get_scanner` and read the WHOLE query, not just `q`.
 2. `preview_scanner_matches` with the same query — confirm it really is zero.
 3. Remove filters one at a time and re-preview. The usual culprits, most common first: an over-broad exclusion, a rate floor (which also drops jobs with no stated rate), a country filter, an over-specific phrase.
-4. If the query previews healthy but no jobs arrive, it is not a query problem — check subscription and connect balance with `ask_gigradar`.
+4. If the query previews healthy but no jobs arrive, it is not a query problem — call `get_balances`. Credits at zero or a freelancer out of connects stops sending without touching matching, and rewriting a healthy query hides that rather than fixing it. `ask_gigradar` explains anything the numbers leave unclear.
 
 ## Reading scanner performance
 
