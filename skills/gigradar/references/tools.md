@@ -10,6 +10,7 @@ Every tool acts on the connection's ACTIVE team. The team is never a tool argume
 | `whoami` | Signed-in account and active team. |
 | `list_teams` | Every team this account can act on. |
 | `switch_team` | Change the active team. Persists across conversations. |
+| `get_balances` | Credit balance for the team plus Upwork connects per freelancer. |
 
 ## Scanners
 
@@ -26,6 +27,8 @@ A scanner is a saved search that runs continuously and feeds the autobidder.
 | `delete_scanner` | Delete. Immediate — confirm first. |
 | `reorder_scanner` | Change priority. Position 1 is highest. |
 | `get_scanner_performance` | Per-scanner results for a date range: bids, replies, connects, score, PVR, LRR. |
+
+`get_balances` answers "can we keep bidding" — it returns the team's credit balance and each freelancer's Upwork connects. A scanner that previews healthy but sends nothing is usually one of those two at zero, so check it before rewriting a query that was never the problem.
 
 Priority decides which scanner claims a job when several match — relevant when scanners overlap and each has a different cover-letter template.
 
@@ -90,6 +93,7 @@ For attachments, request a signed upload URL with `get_crm_upload_url`, upload b
 | `ask_gigradar` | Start an async, continuable conversation with GigRadar's built-in assistant. Returns a threadId; does not return the answer directly. |
 | `get_gigradar_answer` | Poll an async ask_gigradar conversation until its answer is ready. |
 | `submit_feedback` | Report a bug or request a feature, straight to the GigRadar team. |
+| `request_feedback_upload_url` | Get a signed URL to attach a screenshot or log to a report. Upload the bytes directly; never put them in a tool call. |
 | `get_feedback_status` | Check the status of a report filed with `submit_feedback`. |
 
 ## Async assistant conversations
